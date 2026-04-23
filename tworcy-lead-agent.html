@@ -696,7 +696,7 @@ https://vimeo.com/user12600786</textarea>
 
 <script>
 const PROXY_URL = 'https://tworcy-proxy.onrender.com/search';
-const ANTHROPIC_PROXY = 'https://api.anthropic.com/v1/messages';
+const ANTHROPIC_PROXY = 'https://tworcy-proxy.onrender.com/anthropic';
 
 function showToast(msg) {
   const t = document.getElementById('toast');
@@ -817,12 +817,7 @@ Odpowiedz TYLKO w JSON bez żadnego markdown ani komentarzy:
 
   const res = await fetch(ANTHROPIC_PROXY, {
     method: 'POST',
-    headers: { 
-      'Content-Type': 'application/json',
-      'anthropic-version': '2023-06-01',
-      'x-api-key': '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',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 4000,
@@ -831,6 +826,10 @@ Odpowiedz TYLKO w JSON bez żadnego markdown ani komentarzy:
   });
 
   const data = await res.json();
+  if (!res.ok || !data.content) {
+    const errMsg = data.error?.message || JSON.stringify(data);
+    throw new Error('Anthropic API error: ' + errMsg);
+  }
   const text = data.content.map(i => i.text || '').join('');
   const clean = text.replace(/```json|```/g, '').trim();
   return JSON.parse(clean);
