@@ -745,7 +745,6 @@ async function fetchMetaAds(keyword, country) {
     country: country,
     ad_type: 'ALL',
     ad_active_status: 'ACTIVE',
-    media_type: 'image',
   });
 
   try {
@@ -762,7 +761,15 @@ async function fetchMetaAds(keyword, country) {
 async function qualifyAndGenerate(adsData, params) {
   const { keyword, country, usp, senderName, portfolio, tone, lang, signature, count, excludeType } = params;
 
-  const adsSnippet = JSON.stringify(adsData).slice(0, 3000);
+  // Extract just the useful fields to save tokens
+  const ads = (adsData.ads || []).slice(0, 30).map(a => ({
+    page: a.snapshot?.page_name || '',
+    body: (a.snapshot?.body?.markup || a.snapshot?.cards?.[0]?.body || '').slice(0, 100),
+    cta: a.snapshot?.cta_text || '',
+    link: a.snapshot?.link_url || a.snapshot?.cards?.[0]?.link_url || '',
+    media: a.snapshot?.videos?.length > 0 ? 'video' : 'image',
+  }));
+  const adsSnippet = JSON.stringify(ads);
 
   const prompt = `Jesteś ekspertem od generowania leadów B2B dla firmy produkcji filmowej i video marketingu.
 
