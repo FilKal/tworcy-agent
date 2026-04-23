@@ -6,1960 +6,257 @@
 <title>TWÓRCY — Agent Leadów</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C97A;
-    --gold-dim: #8a6e2f;
-    --black: #0e0e0e;
-    --surface: #161616;
-    --surface2: #1f1f1f;
-    --surface3: #2a2a2a;
-    --border: rgba(201,168,76,0.18);
-    --border-bright: rgba(201,168,76,0.45);
-    --text: #f0ede6;
-    --text-muted: #8a8680;
-    --text-dim: #5a5752;
-    --red: #e05555;
-    --green: #5cb87a;
-    --radius: 10px;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--black);
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-
-  /* HEADER */
-  .header {
-    border-bottom: 1px solid var(--border);
-    padding: 1.25rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    color: var(--gold);
-    letter-spacing: 0.12em;
-  }
-
-  .logo span {
-    color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    display: block;
-    margin-top: -2px;
-  }
-
-  .header-status {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-  }
-
-  .dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-right: 6px;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* LAYOUT */
-  .main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem;
-  }
-
-  /* PANELS */
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .panel-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .panel-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* FORM ELEMENTS */
-  .field { margin-bottom: 1rem; }
-
-  .field label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.04em;
-  }
-
-  .field input,
-  .field textarea,
-  .field select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 300;
-    padding: 0.65rem 0.9rem;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .field input:focus,
-  .field textarea:focus,
-  .field select:focus {
-    border-color: var(--gold-dim);
-  }
-
-  .field textarea { resize: vertical; min-height: 70px; }
-
-  .field select option { background: var(--surface2); }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-
-  /* BUTTON */
-  .btn-main {
-    width: 100%;
-    padding: 1rem;
-    background: var(--gold);
-    color: var(--black);
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 0.5rem;
-  }
-
-  .btn-main:hover { background: var(--gold-light); }
-  .btn-main:active { transform: scale(0.99); }
-  .btn-main:disabled { background: var(--surface3); color: var(--text-dim); cursor: not-allowed; }
-
-  .btn-sm {
-    padding: 0.45rem 1rem;
-    border: 1px solid var(--border-bright);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--gold);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    white-space: nowrap;
-  }
-
-  .btn-sm:hover { background: var(--gold); color: var(--black); }
-
-  .btn-mail {
-    padding: 0.5rem 1.1rem;
-    border: 1px solid var(--green);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--green);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-mail:hover { background: var(--green); color: var(--black); }
-
-  /* LOADING */
-  .loading-wrap {
-    text-align: center;
-    padding: 3rem 1rem;
-  }
-
-  .loader {
-    width: 36px; height: 36px;
-    border: 2px solid var(--border);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 1.25rem;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-step {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    color: var(--gold-dim);
-  }
-
-  .loading-step span {
-    display: block;
-    color: var(--text-muted);
-    margin-top: 0.3rem;
-    font-size: 0.65rem;
-  }
-
-  /* RESULTS HEADER */
-  .results-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-
-  .results-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    color: var(--text);
-  }
-
-  .results-title em {
-    color: var(--gold);
-    font-style: normal;
-  }
-
-  /* LEAD CARD */
-  .lead-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 1.25rem;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-
-  .lead-card:hover { border-color: var(--border-bright); }
-
-  .lead-card-header {
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    cursor: pointer;
-  }
-
-  .lead-company {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .lead-meta {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 4px;
-  }
-
-  .lead-meta span { display: flex; align-items: center; gap: 4px; }
-
-  .heat-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    border: 1px solid;
-  }
-
-  .heat-hot { color: #e8845a; border-color: rgba(232,132,90,0.35); background: rgba(232,132,90,0.08); }
-  .heat-warm { color: var(--gold); border-color: var(--border-bright); background: rgba(201,168,76,0.08); }
-  .heat-cold { color: #6ba3d6; border-color: rgba(107,163,214,0.35); background: rgba(107,163,214,0.08); }
-
-  .score-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-  }
-
-  .score-bar {
-    flex: 1;
-    height: 3px;
-    background: var(--surface3);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .score-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-    transition: width 1s ease;
-  }
-
-  .score-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    min-width: 28px;
-    text-align: right;
-  }
-
-  .lead-reason {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-top: 8px;
-    padding: 0.75rem 1rem;
-    background: var(--surface2);
-    border-radius: 6px;
-    border-left: 2px solid var(--gold-dim);
-  }
-
-  /* DETAIL SECTION */
-  .lead-detail {
-    display: none;
-    border-top: 1px solid var(--border);
-    padding: 1.5rem;
-  }
-
-  .lead-detail.open { display: block; }
-
-  .msg-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1rem;
-  }
-
-  .msg-tab {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    padding: 5px 12px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .msg-tab.active {
-    border-color: var(--gold-dim);
-    color: var(--gold);
-    background: rgba(201,168,76,0.07);
-  }
-
-  .msg-variant { display: none; }
-  .msg-variant.active { display: block; }
-
-  .msg-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--text-dim);
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-  }
-
-  .msg-subject {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--gold-light);
-    margin-bottom: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    background: rgba(201,168,76,0.06);
-    border-radius: 4px;
-    border: 1px solid var(--border);
-  }
-
-  .msg-body {
-    font-size: 0.85rem;
-    color: var(--text);
-    line-height: 1.8;
-    background: var(--surface2);
-    border-radius: 6px;
-    padding: 1rem 1.1rem;
-    border: 1px solid var(--border);
-    white-space: pre-wrap;
-    margin-bottom: 0.75rem;
-    font-family: 'Outfit', sans-serif;
-  }
-
-  .msg-linkedin {
-    font-size: 0.85rem;
-    color: var(--text);
-    line-height: 1.8;
-    background: var(--surface2);
-    border-radius: 6px;
-    padding: 1rem 1.1rem;
-    border: 1px solid rgba(107,163,214,0.25);
-    white-space: pre-wrap;
-    margin-bottom: 0.75rem;
-  }
-
-  .msg-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .contact-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 0.75rem 1rem;
-    background: var(--surface2);
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    margin-bottom: 1rem;
-    align-items: center;
-  }
-
-  .contact-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .contact-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .contact-role {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.18em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin: 1.25rem 0 0.6rem;
-  }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    background: var(--surface2);
-    border: 1px solid var(--border-bright);
-    border-radius: 8px;
-    padding: 0.75rem 1.25rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.25s;
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  .toast.show { opacity: 1; transform: translateY(0); }
-
-  /* STRATEGY BOX */
-  .strategy-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold-dim);
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-
-  .error-box {
-    background: rgba(224,85,85,0.07);
-    border: 1px solid rgba(224,85,85,0.25);
-    border-radius: 8px;
-    padding: 1.25rem;
-    color: var(--red);
-    font-size: 0.85rem;
-    line-height: 1.7;
-  }
-
-  /* CHEVRON */
-  .chevron {
-    width: 16px; height: 16px;
-    border-right: 1.5px solid var(--text-dim);
-    border-bottom: 1.5px solid var(--text-dim);
-    transform: rotate(45deg);
-    transition: transform 0.2s;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-
-  .chevron.open { transform: rotate(-135deg); }
-
-  @media (max-width: 600px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .results-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-    .header { padding: 1rem; }
-    .main { padding: 1.5rem 1rem; }
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#0e0e0e;color:#f0ede6;font-family:'Outfit',sans-serif;font-weight:300;min-height:100vh;line-height:1.6}
+.header{border-bottom:1px solid rgba(201,168,76,.18);padding:1.25rem 2rem;display:flex;align-items:center;justify-content:space-between;background:#161616;position:sticky;top:0;z-index:100}
+.logo{font-family:'DM Serif Display',serif;font-size:1.3rem;color:#C9A84C;letter-spacing:.12em}
+.logo span{color:#8a8680;font-family:'DM Mono',monospace;font-size:.65rem;letter-spacing:.2em;display:block;margin-top:-2px}
+.hstat{font-family:'DM Mono',monospace;font-size:.65rem;color:#5a5752;letter-spacing:.1em}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#5cb87a;margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.main{max-width:900px;margin:0 auto;padding:2.5rem 1.5rem}
+.panel{background:#161616;border:1px solid rgba(201,168,76,.18);border-radius:10px;padding:1.75rem;margin-bottom:1.25rem}
+.ptitle{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.2em;color:#8a6e2f;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.ptitle::after{content:'';flex:1;height:1px;background:rgba(201,168,76,.18)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.72rem;font-weight:500;color:#8a8680;margin-bottom:.4rem;letter-spacing:.04em}
+.field input,.field textarea,.field select{width:100%;background:#1f1f1f;border:1px solid rgba(201,168,76,.18);border-radius:6px;color:#f0ede6;font-family:'Outfit',sans-serif;font-size:.9rem;font-weight:300;padding:.65rem .9rem;outline:none;transition:border-color .2s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:#8a6e2f}
+.field textarea{resize:vertical;min-height:70px}
+.field select option{background:#1f1f1f}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.btn-main{width:100%;padding:1rem;background:#C9A84C;color:#0e0e0e;border:none;border-radius:10px;font-family:'Outfit',sans-serif;font-size:.95rem;font-weight:600;letter-spacing:.06em;cursor:pointer;margin-top:.5rem}
+.btn-main:hover{background:#E8C97A}
+.btn-main:disabled{background:#2a2a2a;color:#5a5752;cursor:not-allowed}
+.btn-sm{padding:.45rem 1rem;border:1px solid rgba(201,168,76,.45);border-radius:6px;background:transparent;color:#C9A84C;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;cursor:pointer}
+.btn-sm:hover{background:#C9A84C;color:#0e0e0e}
+.btn-mail{padding:.5rem 1.1rem;border:1px solid #5cb87a;border-radius:6px;background:transparent;color:#5cb87a;font-family:'DM Mono',monospace;font-size:.68rem;letter-spacing:.08em;cursor:pointer;text-decoration:none;display:inline-block}
+.btn-mail:hover{background:#5cb87a;color:#0e0e0e}
+.loader{width:36px;height:36px;border:2px solid rgba(201,168,76,.18);border-top-color:#C9A84C;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1.25rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lmsg{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:#8a6e2f;text-align:center;padding:3rem 1rem}
+.rhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.rtitle{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#f0ede6}
+.rtitle em{color:#C9A84C;font-style:normal}
+.lcard{background:#161616;border:1px solid rgba(201,168,76,.18);border-radius:10px;margin-bottom:1.25rem;overflow:hidden}
+.lcard:hover{border-color:rgba(201,168,76,.45)}
+.lcard-h{padding:1.25rem 1.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;cursor:pointer}
+.lco{font-family:'DM Serif Display',serif;font-size:1.15rem;color:#f0ede6}
+.lmeta{font-size:.8rem;color:#8a8680;display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.badge{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;padding:4px 10px;border-radius:20px;white-space:nowrap;border:1px solid}
+.hot{color:#e8845a;border-color:rgba(232,132,90,.35);background:rgba(232,132,90,.08)}
+.warm{color:#C9A84C;border-color:rgba(201,168,76,.45);background:rgba(201,168,76,.08)}
+.cold{color:#6ba3d6;border-color:rgba(107,163,214,.35);background:rgba(107,163,214,.08)}
+.sbar{flex:1;height:3px;background:#2a2a2a;border-radius:2px;overflow:hidden}
+.sfill{height:100%;border-radius:2px;background:linear-gradient(90deg,#8a6e2f,#C9A84C)}
+.snum{font-family:'DM Mono',monospace;font-size:.65rem;color:#5a5752;min-width:28px;text-align:right}
+.srow{display:flex;align-items:center;gap:8px;margin-top:8px}
+.reason{font-size:.82rem;color:#8a8680;line-height:1.6;margin-top:8px;padding:.75rem 1rem;background:#1f1f1f;border-radius:6px;border-left:2px solid #8a6e2f}
+.detail{display:none;border-top:1px solid rgba(201,168,76,.18);padding:1.5rem}
+.detail.open{display:block}
+.slabel{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:#5a5752;text-transform:uppercase;margin:1rem 0 .5rem}
+.contact-row{display:flex;gap:8px;flex-wrap:wrap;padding:.75rem 1rem;background:#1f1f1f;border-radius:6px;border:1px solid rgba(201,168,76,.18);margin-bottom:1rem;align-items:center}
+.cinfo{flex:1}
+.cname{font-size:.9rem;font-weight:500}
+.crole{font-size:.75rem;color:#8a8680}
+.tabs{display:flex;gap:6px;margin-bottom:1rem}
+.tab{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;padding:5px 12px;border-radius:4px;border:1px solid rgba(201,168,76,.18);background:transparent;color:#5a5752;cursor:pointer}
+.tab.active{border-color:#8a6e2f;color:#C9A84C;background:rgba(201,168,76,.07)}
+.variant{display:none}
+.variant.active{display:block}
+.subj{font-size:.85rem;font-weight:500;color:#E8C97A;margin-bottom:.75rem;padding:.5rem .75rem;background:rgba(201,168,76,.06);border-radius:4px;border:1px solid rgba(201,168,76,.18)}
+.mbody{font-size:.85rem;color:#f0ede6;line-height:1.8;background:#1f1f1f;border-radius:6px;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);white-space:pre-wrap;margin-bottom:.75rem}
+.lnkbody{font-size:.85rem;color:#f0ede6;line-height:1.8;background:#1f1f1f;border-radius:6px;padding:1rem 1.1rem;border:1px solid rgba(107,163,214,.25);white-space:pre-wrap;margin-bottom:.75rem}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.strat{background:#1f1f1f;border:1px solid rgba(201,168,76,.18);border-left:3px solid #8a6e2f;border-radius:6px;padding:1rem 1.25rem;font-size:.85rem;color:#8a8680;line-height:1.7;margin-bottom:1.5rem}
+.errbox{background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.25);border-radius:8px;padding:1.25rem;color:#e05555;font-size:.85rem;line-height:1.7}
+.chev{width:16px;height:16px;border-right:1.5px solid #5a5752;border-bottom:1.5px solid #5a5752;transform:rotate(45deg);transition:transform .2s;flex-shrink:0;margin-top:4px}
+.chev.open{transform:rotate(-135deg)}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1f1f1f;border:1px solid rgba(201,168,76,.45);border-radius:8px;padding:.75rem 1.25rem;font-family:'DM Mono',monospace;font-size:.7rem;color:#C9A84C;letter-spacing:.08em;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr}.rhead{flex-direction:column;align-items:flex-start;gap:.75rem}}
 </style>
 </head>
 <body>
-
 <div class="header">
-  <div class="logo">
-    TWÓRCY
-    <span>AGENT LEADÓW · v1.0</span>
-  </div>
-  <div class="header-status">
-    <span class="dot"></span>META AD LIBRARY · SEARCHAPI
-  </div>
+  <div class="logo">TWÓRCY<span>AGENT LEADÓW · v2.0</span></div>
+  <div class="hstat"><span class="dot"></span>META AD LIBRARY · SEARCHAPI</div>
 </div>
-
 <div class="main">
-
-  <!-- FORM VIEW -->
-  <div id="view-form">
-
+  <div id="vform">
     <div class="panel">
-      <div class="panel-title">Kryteria wyszukiwania</div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Słowo kluczowe / branża</label>
-          <input type="text" id="keyword" placeholder="np. fashion, meble, kosmetyki, software..." value="">
-        </div>
-        <div class="field">
-          <label>Kraj</label>
-          <select id="country">
-            <option value="PL">Polska</option>
-            <option value="DE">Niemcy</option>
-            <option value="FR">Francja</option>
-            <option value="NL">Holandia</option>
-            <option value="CZ">Czechy</option>
-            <option value="SK">Słowacja</option>
-            <option value="AT">Austria</option>
-            <option value="BE">Belgia</option>
-            <option value="SE">Szwecja</option>
-            <option value="ALL">Cała Europa</option>
-          </select>
-        </div>
+      <div class="ptitle">Kryteria wyszukiwania</div>
+      <div class="g2">
+        <div class="field"><label>Słowo kluczowe / branża</label><input type="text" id="keyword" placeholder="np. hotel, fashion, meble..."></div>
+        <div class="field"><label>Kraj</label><select id="country"><option value="PL">Polska</option><option value="DE">Niemcy</option><option value="CZ">Czechy</option><option value="SK">Słowacja</option><option value="AT">Austria</option><option value="NL">Holandia</option></select></div>
       </div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Typ reklam do wykluczenia</label>
-          <select id="exclude_type">
-            <option value="no_video">Firmy bez reklam wideo (Twój target)</option>
-            <option value="all">Wszystkie aktywne reklamy</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Liczba leadów do wygenerowania</label>
-          <select id="count">
-            <option value="3" selected>3 leady</option>
-            <option value="3" selected>3 leady</option>
-            <option value="8">8 leadów</option>
-          </select>
-        </div>
+      <div class="g2">
+        <div class="field"><label>Liczba leadów</label><select id="count"><option value="2">2 leady</option><option value="3" selected>3 leady</option><option value="4">4 leady</option></select></div>
+        <div class="field"><label>Język wiadomości</label><select id="lang"><option value="polski">Polski</option><option value="angielski">Angielski</option></select></div>
       </div>
     </div>
-
     <div class="panel">
-      <div class="panel-title">Twój profil</div>
-      <div class="field">
-        <label>USP — co oferujesz i czym się wyróżniasz</label>
-        <textarea id="usp">Produkuję filmy marketingowe — spoty reklamowe, filmy wizerunkowe, relacje z eventów, unboxingi. Każda forma filmowa w marketingu. Pracuję z firmami z Polski i Europy. Łączę storytelling z celami biznesowymi klienta.</textarea>
+      <div class="ptitle">Twój profil</div>
+      <div class="g2">
+        <div class="field"><label>Imię i nazwisko</label><input type="text" id="sname" value="Filip Kalczyński"></div>
+        <div class="field"><label>Portfolio Vimeo</label><input type="text" id="portfolio" value="https://vimeo.com/user12600786"></div>
       </div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Twoje imię i nazwisko</label>
-          <input type="text" id="sender_name" value="Filip Kalczyński">
-        </div>
-        <div class="field">
-          <label>Link do portfolio (Vimeo)</label>
-          <input type="text" id="portfolio" value="https://vimeo.com/user12600786">
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="field">
-          <label>Ton wiadomości</label>
-          <select id="tone">
-            <option value="miękki, wartościowy">Miękki, wartościowy</option>
-            <option value="bezpośredni, konkretny">Bezpośredni, konkretny</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Język wiadomości</label>
-          <select id="lang">
-            <option value="polski">Polski</option>
-            <option value="angielski">Angielski</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Twój adres e-mail</label>
-          <input type="text" id="sender_email" value="fkalczynski@tworcy.com.pl">
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">Stopka mailowa</div>
-      <div class="field">
-        <textarea id="signature" style="min-height:100px; font-family: 'DM Mono', monospace; font-size:0.75rem;">Filip Kalczyński
+      <div class="field"><label>Stopka mailowa</label><textarea id="sig" style="min-height:90px;font-family:monospace;font-size:.75rem">Filip Kalczyński
 Copywriter | Reżyser | Producent
 
 TWÓRCY
 fkalczynski@tworcy.com.pl
 m: 507 017 011
 www.tworcy.com.pl
-https://vimeo.com/user12600786</textarea>
-      </div>
+https://vimeo.com/user12600786</textarea></div>
     </div>
-
-    <button class="btn-main" id="btn-run" onclick="runAgent()">
-      SZUKAJ LEADÓW W META AD LIBRARY →
-    </button>
+    <button class="btn-main" id="btnrun" onclick="run()">SZUKAJ LEADÓW W META AD LIBRARY →</button>
   </div>
 
-  <!-- RESULTS VIEW -->
-  <div id="view-results" style="display:none">
-
-    <div class="results-header">
-      <div>
-        <div class="results-title" id="res-title">Analizuję rynek<em>...</em></div>
-        <div style="font-size:0.78rem; color:var(--text-muted); margin-top:4px;" id="res-sub"></div>
-      </div>
-      <button class="btn-sm" onclick="resetView()">← Nowe wyszukiwanie</button>
+  <div id="vres" style="display:none">
+    <div class="rhead">
+      <div><div class="rtitle" id="rtitle">Szukam leadów<em>...</em></div><div style="font-size:.78rem;color:#8a8680;margin-top:4px" id="rsub"></div></div>
+      <button class="btn-sm" onclick="reset()">← Nowe wyszukiwanie</button>
     </div>
-
-    <div id="loading-block" class="panel">
-      <div class="loading-wrap">
-        <div class="loader"></div>
-        <div class="loading-step" id="load-msg">POBIERANIE DANYCH Z META AD LIBRARY
-          <span id="load-sub">łączenie z searchapi.io...</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="results-block" style="display:none"></div>
+    <div id="loading" class="panel"><div class="lmsg"><div class="loader"></div><div id="lmsg">Pobieranie danych z Meta Ad Library...</div></div></div>
+    <div id="leads" style="display:none"></div>
   </div>
-
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
-const PROXY_URL = 'https://tworcy-proxy.onrender.com/search';
-const ANTHROPIC_PROXY = 'https://tworcy-proxy.onrender.com/anthropic';
+const PROXY = 'https://tworcy-proxy.onrender.com';
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function cp(t){navigator.clipboard.writeText(t).then(()=>toast('Skopiowano ✓'))}
+function mailto(to,sub,body){return`mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`}
+function toggle(i){const d=document.getElementById('d'+i),c=document.getElementById('c'+i);d.classList.toggle('open');c.classList.toggle('open')}
+function tab(li,vi){document.querySelectorAll('.t'+li).forEach((t,i)=>t.classList.toggle('active',i===vi));document.querySelectorAll('.v'+li).forEach((v,i)=>v.classList.toggle('active',i===vi))}
+function reset(){document.getElementById('vres').style.display='none';document.getElementById('vform').style.display='block';document.getElementById('btnrun').disabled=false;document.getElementById('leads').innerHTML='';document.getElementById('leads').style.display='none';document.getElementById('loading').style.display='block'}
+
+async function run(){
+  const kw=document.getElementById('keyword').value.trim();
+  if(!kw){toast('Podaj słowo kluczowe');return}
+  const country=document.getElementById('country').value;
+  const count=document.getElementById('count').value;
+  const lang=document.getElementById('lang').value;
+  const sname=document.getElementById('sname').value;
+  const portfolio=document.getElementById('portfolio').value;
+  const sig=document.getElementById('sig').value;
+
+  document.getElementById('btnrun').disabled=true;
+  document.getElementById('vform').style.display='none';
+  document.getElementById('vres').style.display='block';
+  document.getElementById('rsub').textContent=kw+' · '+country;
+
+  // Step 1: fetch ads
+  document.getElementById('lmsg').textContent='Pobieranie danych z Meta Ad Library...';
+  let ads=[];
+  try{
+    const p=new URLSearchParams({engine:'meta_ad_library',q:kw,country,ad_type:'ALL',ad_active_status:'ACTIVE'});
+    const r=await fetch(`${PROXY}/search?${p}`);
+    const d=await r.json();
+    ads=(d.ads||[]).slice(0,25).map(a=>({
+      page:a.snapshot?.page_name||'',
+      text:(a.snapshot?.body?.markup||a.snapshot?.cards?.[0]?.body||'').slice(0,80),
+      link:a.snapshot?.link_url||a.snapshot?.cards?.[0]?.link_url||'',
+      video:!!(a.snapshot?.videos?.length)
+    }));
+  }catch(e){showError('Błąd SearchAPI: '+e.message);return}
+
+  // Step 2: AI qualify
+  document.getElementById('lmsg').textContent='Analizuję i generuję leady...';
+  
+  const prompt=`Jesteś agentem generującym leady dla producenta filmów marketingowych ${sname} (portfolio: ${portfolio}).
+
+Dane z Meta Ad Library (reklamy firm szukanych przez: "${kw}", kraj: ${country}):
+${JSON.stringify(ads)}
+
+Zadanie: wybierz ${count} firm polskich które mają reklamy graficzne (video:false) - to potencjalni klienci na filmy marketingowe. Pomiń zagraniczne marki globalne.
+
+Dla każdej firmy napisz:
+1. Email (ton: profesjonalny, język: ${lang}) nawiązujący do ich reklam graficznych i braku wideo
+2. Wiadomość LinkedIn (max 250 znaków)
+
+Stopka każdego emaila:
+${sig}
+
+Odpowiedz TYLKO JSON (bez markdown):
+{"leads":[{"co":"nazwa firmy","ind":"branża","obs":"co widać w ich reklamach (1 zdanie)","score":75,"heat":"ciepły","cn":"Imię Nazwisko","cr":"stanowisko","ce":"email@firma.pl","cl":"linkedin.com/in/imie-nazwisko","why":"dlaczego dobry lead (1 zdanie)","e1s":"temat emaila wariant 1","e1b":"treść emaila wariant 1 ze stopką","e2s":"temat emaila wariant 2","e2b":"treść emaila wariant 2 ze stopką","lnk":"wiadomość linkedin"}],"strat":"1 zdanie strategii"}`;
+
+  let result;
+  try{
+    const r=await fetch(`${PROXY}/anthropic`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2500,messages:[{role:'user',content:prompt}]})
+    });
+    const d=await r.json();
+    if(!d.content){throw new Error(d.error?.message||JSON.stringify(d))}
+    const txt=d.content.map(x=>x.text||'').join('');
+    const clean=txt.replace(/```json|```/g,'').trim();
+    result=JSON.parse(clean);
+  }catch(e){showError('Błąd AI: '+e.message);return}
+
+  render(result);
 }
 
-function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('Skopiowano ✓'));
-}
-
-function makeMailtoLink(to, subject, body) {
-  return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
-function toggleDetail(id) {
-  const det = document.getElementById('det-' + id);
-  const chev = document.getElementById('chev-' + id);
-  det.classList.toggle('open');
-  chev.classList.toggle('open');
-}
-
-function switchMsgTab(leadIdx, variantIdx) {
-  document.querySelectorAll(`.msg-tab-${leadIdx}`).forEach((t, i) => {
-    t.classList.toggle('active', i === variantIdx);
-  });
-  document.querySelectorAll(`.msg-variant-${leadIdx}`).forEach((v, i) => {
-    v.classList.toggle('active', i === variantIdx);
-  });
-}
-
-function resetView() {
-  document.getElementById('view-results').style.display = 'none';
-  document.getElementById('view-form').style.display = 'block';
-  document.getElementById('btn-run').disabled = false;
-  document.getElementById('results-block').innerHTML = '';
-  document.getElementById('results-block').style.display = 'none';
-  document.getElementById('loading-block').style.display = 'block';
-}
-
-async function fetchMetaAds(keyword, country) {
-  const params = new URLSearchParams({
-    engine: 'meta_ad_library',
-    q: keyword,
-    country: country,
-    ad_type: 'ALL',
-    ad_active_status: 'ACTIVE',
-  });
-
-  try {
-    const res = await fetch(`${PROXY_URL}?${params}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return data;
-  } catch(e) {
-    console.error('fetchMetaAds error:', e);
-    throw new Error(`Błąd połączenia z Meta Ad Library: ${e.message}`);
-  }
-}
-
-async function qualifyAndGenerate(adsData, params) {
-  const { keyword, country, usp, senderName, portfolio, tone, lang, signature, count, excludeType } = params;
-
-  // Extract just the useful fields to save tokens
-  const ads = (adsData.ads || []).slice(0, 30).map(a => ({
-    page: a.snapshot?.page_name || '',
-    body: (a.snapshot?.body?.markup || a.snapshot?.cards?.[0]?.body || '').slice(0, 100),
-    cta: a.snapshot?.cta_text || '',
-    link: a.snapshot?.link_url || a.snapshot?.cards?.[0]?.link_url || '',
-    media: a.snapshot?.videos?.length > 0 ? 'video' : 'image',
-  }));
-  const adsSnippet = JSON.stringify(ads);
-
-  const prompt = `Generuj leady B2B dla producenta filmów marketingowych.
-
-DANE REKLAM Z META (firmy szukające reklam w branży ${keyword}, ${country}):
-${adsSnippet}
-
-WYBIERZ ${count} polskich firm które NIE mają reklam wideo (pole media=image). Pomiń zagraniczne marki.
-
-Dla każdej firmy napisz krótki email i wiadomość LinkedIn od ${senderName} (portfolio: ${portfolio}).
-Ton: ${tone}. Język: ${lang}.
-Stopka emaila:
-${signature}
-
-Odpowiedz TYLKO w JSON bez żadnego markdown ani komentarzy:
-{
-  "leads": [
-    {
-      "company_name": "nazwa firmy z danych",
-      "page_name": "nazwa strony FB",
-      "industry": "branża",
-      "ad_observation": "co konkretnie widać w ich reklamach — ile reklam, jakiego typu, co reklamują",
-      "score": 82,
-      "heat": "gorący",
-      "contact_name": "Imię Nazwisko (zmyślone ale realistyczne dla tej firmy)",
-      "contact_role": "CMO / Marketing Manager / etc",
-      "contact_email": "imie.nazwisko@domena.com (na podstawie domeny firmy)",
-      "contact_linkedin": "linkedin.com/in/imie-nazwisko",
-      "qualification_reason": "dlaczego to dobry lead — 2 zdania nawiązujące do ich reklam",
-      "email_variant_1": {
-        "label": "Miękki, wartościowy",
-        "subject": "temat emaila",
-        "body": "treść emaila z stopką na końcu"
-      },
-      "email_variant_2": {
-        "label": "Bezpośredni, konkretny",
-        "subject": "temat emaila",
-        "body": "treść emaila z stopką na końcu"
-      },
-      "linkedin_msg": "wiadomość LinkedIn max 300 znaków"
-    }
-  ],
-  "strategy": "2-3 zdania o strategii outreach dla tych leadów"
-}`;
-
-  const res = await fetch(ANTHROPIC_PROXY, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 3000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-
-  const data = await res.json();
-  if (!res.ok || !data.content) {
-    const errMsg = data.error?.message || JSON.stringify(data);
-    throw new Error('Anthropic API error: ' + errMsg);
-  }
-  const text = data.content.map(i => i.text || '').join('');
-  const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
-}
-
-function renderLeads(result, senderEmail) {
-  const { leads, strategy } = result;
-  let html = '';
-
-  if (strategy) {
-    html += `<div class="strategy-box">${strategy}</div>`;
-  }
-
-  leads.forEach((lead, i) => {
-    const heatClass = lead.heat === 'gorący' ? 'heat-hot' : lead.heat === 'ciepły' ? 'heat-warm' : 'heat-cold';
-    const score = Math.min(100, Math.max(0, lead.score || 70));
-
-    const mailto1 = makeMailtoLink(lead.contact_email, lead.email_variant_1.subject, lead.email_variant_1.body);
-    const mailto2 = makeMailtoLink(lead.contact_email, lead.email_variant_2.subject, lead.email_variant_2.body);
-
-    html += `
-    <div class="lead-card">
-      <div class="lead-card-header" onclick="toggleDetail(${i})">
-        <div style="flex:1; min-width:0">
-          <div class="lead-company">${lead.company_name}</div>
-          <div class="lead-meta">
-            <span>📍 ${lead.industry}</span>
-            <span>📄 ${lead.ad_observation ? lead.ad_observation.slice(0,60) + '…' : 'aktywne reklamy FB/IG'}</span>
-          </div>
-          <div class="score-row">
-            <div class="score-bar"><div class="score-fill" style="width:${score}%"></div></div>
-            <div class="score-num">${score}/100</div>
-            <span class="heat-badge ${heatClass}">${lead.heat || 'ciepły'}</span>
-          </div>
-          <div class="lead-reason">${lead.qualification_reason}</div>
+function render(result){
+  document.getElementById('loading').style.display='none';
+  document.getElementById('rtitle').innerHTML=`<em>${result.leads.length}</em> leadów gotowych`;
+  const c=document.getElementById('leads');
+  c.style.display='block';
+  let html='';
+  if(result.strat) html+=`<div class="strat">${result.strat}</div>`;
+  result.leads.forEach((l,i)=>{
+    const hc=l.heat==='gorący'?'hot':l.heat==='ciepły'?'warm':'cold';
+    const sc=Math.min(100,Math.max(0,l.score||70));
+    const m1=mailto(l.ce,l.e1s,l.e1b);
+    const m2=mailto(l.ce,l.e2s,l.e2b);
+    html+=`<div class="lcard">
+      <div class="lcard-h" onclick="toggle(${i})">
+        <div style="flex:1">
+          <div class="lco">${l.co}</div>
+          <div class="lmeta"><span>${l.ind}</span><span>${l.obs}</span></div>
+          <div class="srow"><div class="sbar"><div class="sfill" style="width:${sc}%"></div></div><div class="snum">${sc}/100</div><span class="badge ${hc}">${l.heat}</span></div>
+          <div class="reason">${l.why}</div>
         </div>
-        <div class="chevron" id="chev-${i}"></div>
+        <div class="chev" id="c${i}"></div>
       </div>
-
-      <div class="lead-detail" id="det-${i}">
-
-        <div class="section-label">Kontakt</div>
+      <div class="detail" id="d${i}">
+        <div class="slabel">Kontakt</div>
         <div class="contact-row">
-          <div class="contact-info">
-            <div class="contact-name">${lead.contact_name}</div>
-            <div class="contact-role">${lead.contact_role}</div>
-          </div>
-          <button class="btn-sm" onclick="copyText('${lead.contact_email}')">Kopiuj e-mail</button>
-          <button class="btn-sm" onclick="copyText('${lead.contact_linkedin}')">Kopiuj LinkedIn</button>
+          <div class="cinfo"><div class="cname">${l.cn}</div><div class="crole">${l.cr}</div></div>
+          <button class="btn-sm" onclick="cp('${l.ce}')">Kopiuj e-mail</button>
+          <button class="btn-sm" onclick="cp('${l.cl}')">Kopiuj LinkedIn</button>
         </div>
-
-        <div class="section-label">E-mail outreach</div>
-        <div class="msg-tabs">
-          <button class="msg-tab msg-tab-${i} active" onclick="switchMsgTab(${i},0)">${lead.email_variant_1.label}</button>
-          <button class="msg-tab msg-tab-${i}" onclick="switchMsgTab(${i},1)">${lead.email_variant_2.label}</button>
+        <div class="slabel">E-mail outreach</div>
+        <div class="tabs">
+          <button class="tab t${i} active" onclick="tab(${i},0)">Wariant 1</button>
+          <button class="tab t${i}" onclick="tab(${i},1)">Wariant 2</button>
         </div>
-
-        <div class="msg-variant msg-variant-${i} active">
-          <div class="msg-label">Temat</div>
-          <div class="msg-subject">${lead.email_variant_1.subject}</div>
-          <div class="msg-label">Treść</div>
-          <div class="msg-body">${lead.email_variant_1.body}</div>
-          <div class="msg-actions">
-            <a class="btn-mail" href="${mailto1}">✉ Otwórz w kliencie poczty</a>
-            <button class="btn-sm" onclick="copyText(${JSON.stringify(lead.email_variant_1.subject + '\n\n' + lead.email_variant_1.body)})">Kopiuj całość</button>
-          </div>
+        <div class="variant v${i} active">
+          <div class="subj">${l.e1s}</div>
+          <div class="mbody">${l.e1b}</div>
+          <div class="acts"><a class="btn-mail" href="${m1}">✉ Otwórz w kliencie poczty</a><button class="btn-sm" onclick="cp(${JSON.stringify(l.e1s+'\n\n'+l.e1b)})">Kopiuj</button></div>
         </div>
-
-        <div class="msg-variant msg-variant-${i}">
-          <div class="msg-label">Temat</div>
-          <div class="msg-subject">${lead.email_variant_2.subject}</div>
-          <div class="msg-label">Treść</div>
-          <div class="msg-body">${lead.email_variant_2.body}</div>
-          <div class="msg-actions">
-            <a class="btn-mail" href="${mailto2}">✉ Otwórz w kliencie poczty</a>
-            <button class="btn-sm" onclick="copyText(${JSON.stringify(lead.email_variant_2.subject + '\n\n' + lead.email_variant_2.body)})">Kopiuj całość</button>
-          </div>
+        <div class="variant v${i}">
+          <div class="subj">${l.e2s}</div>
+          <div class="mbody">${l.e2b}</div>
+          <div class="acts"><a class="btn-mail" href="${m2}">✉ Otwórz w kliencie poczty</a><button class="btn-sm" onclick="cp(${JSON.stringify(l.e2s+'\n\n'+l.e2b)})">Kopiuj</button></div>
         </div>
-
-        <div class="section-label">Wiadomość LinkedIn</div>
-        <div class="msg-linkedin">${lead.linkedin_msg}</div>
-        <div class="msg-actions">
-          <button class="btn-sm" onclick="copyText(${JSON.stringify(lead.linkedin_msg)})">Kopiuj wiadomość LinkedIn</button>
-          <a class="btn-sm" href="${lead.contact_linkedin}" target="_blank" style="text-decoration:none">Otwórz profil ↗</a>
-        </div>
-
+        <div class="slabel">Wiadomość LinkedIn</div>
+        <div class="lnkbody">${l.lnk}</div>
+        <div class="acts"><button class="btn-sm" onclick="cp(${JSON.stringify(l.lnk)})">Kopiuj LinkedIn</button><a class="btn-sm" href="https://${l.cl}" target="_blank" style="text-decoration:none">Otwórz profil ↗</a></div>
       </div>
     </div>`;
   });
-
-  return html;
+  c.innerHTML=html;
 }
 
-const loadingSteps = [
-  ['POBIERANIE DANYCH Z META AD LIBRARY', 'łączenie z searchapi.io...'],
-  ['ANALIZA REKLAM', 'filtrowanie firm bez wideo...'],
-  ['KWALIFIKACJA LEADÓW', 'ocena potencjału i sygnałów zakupowych...'],
-  ['GENEROWANIE WIADOMOŚCI', 'personalizacja outreach dla każdej firmy...'],
-  ['FINALIZACJA', 'przygotowuję raporty i linki mailto...'],
-];
-
-async function runAgent() {
-  const keyword = document.getElementById('keyword').value.trim();
-  if (!keyword) { showToast('Podaj słowo kluczowe / branżę'); return; }
-
-  const params = {
-    keyword,
-    country: document.getElementById('country').value,
-    usp: document.getElementById('usp').value,
-    senderName: document.getElementById('sender_name').value,
-    portfolio: document.getElementById('portfolio').value,
-    tone: document.getElementById('tone').value,
-    lang: document.getElementById('lang').value,
-    signature: document.getElementById('signature').value,
-    count: document.getElementById('count').value,
-    excludeType: document.getElementById('exclude_type').value,
-    senderEmail: document.getElementById('sender_email').value,
-  };
-
-  document.getElementById('btn-run').disabled = true;
-  document.getElementById('view-form').style.display = 'none';
-  document.getElementById('view-results').style.display = 'block';
-  document.getElementById('res-title').innerHTML = `Szukam leadów<em>...</em>`;
-  document.getElementById('res-sub').textContent = `${keyword} · ${params.country}`;
-
-  let stepIdx = 0;
-  const setStep = (i) => {
-    const [msg, sub] = loadingSteps[i] || loadingSteps[0];
-    document.getElementById('load-msg').childNodes[0].textContent = msg;
-    document.getElementById('load-sub').textContent = sub;
-  };
-
-  const interval = setInterval(() => {
-    stepIdx = Math.min(stepIdx + 1, loadingSteps.length - 1);
-    setStep(stepIdx);
-  }, 3000);
-
-  try {
-    setStep(0);
-    const adsData = await fetchMetaAds(keyword, params.country);
-
-    setStep(2);
-    const result = await qualifyAndGenerate(adsData, params);
-
-    clearInterval(interval);
-    document.getElementById('loading-block').style.display = 'none';
-    document.getElementById('res-title').innerHTML = `<em>${result.leads.length}</em> leadów gotowych`;
-
-    const html = renderLeads(result, params.senderEmail);
-    document.getElementById('results-block').innerHTML = html;
-    document.getElementById('results-block').style.display = 'block';
-
-  } catch(err) {
-    clearInterval(interval);
-    document.getElementById('loading-block').innerHTML = `
-      <div class="error-box">
-        <strong>Błąd podczas generowania leadów.</strong><br><br>
-        ${err.message || 'Sprawdź połączenie i klucz API, następnie spróbuj ponownie.'}<br><br>
-        <button class="btn-sm" onclick="resetView()">← Wróć i spróbuj ponownie</button>
-      </div>`;
-    console.error(err);
-  }
-}
-</script>
-</body>
-</html>
-
-  /* HEADER */
-  .header {
-    border-bottom: 1px solid var(--border);
-    padding: 1.25rem 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: var(--surface);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    color: var(--gold);
-    letter-spacing: 0.12em;
-  }
-
-  .logo span {
-    color: var(--text-muted);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    display: block;
-    margin-top: -2px;
-  }
-
-  .header-status {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-  }
-
-  .dot {
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    margin-right: 6px;
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* LAYOUT */
-  .main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem;
-  }
-
-  /* PANELS */
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.75rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .panel-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.2em;
-    color: var(--gold-dim);
-    text-transform: uppercase;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .panel-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* FORM ELEMENTS */
-  .field { margin-bottom: 1rem; }
-
-  .field label {
-    display: block;
-    font-size: 0.72rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-bottom: 0.4rem;
-    letter-spacing: 0.04em;
-  }
-
-  .field input,
-  .field textarea,
-  .field select {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: var(--text);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 300;
-    padding: 0.65rem 0.9rem;
-    transition: border-color 0.2s;
-    outline: none;
-  }
-
-  .field input:focus,
-  .field textarea:focus,
-  .field select:focus {
-    border-color: var(--gold-dim);
-  }
-
-  .field textarea { resize: vertical; min-height: 70px; }
-
-  .field select option { background: var(--surface2); }
-
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-
-  /* BUTTON */
-  .btn-main {
-    width: 100%;
-    padding: 1rem;
-    background: var(--gold);
-    color: var(--black);
-    border: none;
-    border-radius: var(--radius);
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 0.5rem;
-  }
-
-  .btn-main:hover { background: var(--gold-light); }
-  .btn-main:active { transform: scale(0.99); }
-  .btn-main:disabled { background: var(--surface3); color: var(--text-dim); cursor: not-allowed; }
-
-  .btn-sm {
-    padding: 0.45rem 1rem;
-    border: 1px solid var(--border-bright);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--gold);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    white-space: nowrap;
-  }
-
-  .btn-sm:hover { background: var(--gold); color: var(--black); }
-
-  .btn-mail {
-    padding: 0.5rem 1.1rem;
-    border: 1px solid var(--green);
-    border-radius: 6px;
-    background: transparent;
-    color: var(--green);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    text-decoration: none;
-    display: inline-block;
-  }
-
-  .btn-mail:hover { background: var(--green); color: var(--black); }
-
-  /* LOADING */
-  .loading-wrap {
-    text-align: center;
-    padding: 3rem 1rem;
-  }
-
-  .loader {
-    width: 36px; height: 36px;
-    border: 2px solid var(--border);
-    border-top-color: var(--gold);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 1.25rem;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .loading-step {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    color: var(--gold-dim);
-  }
-
-  .loading-step span {
-    display: block;
-    color: var(--text-muted);
-    margin-top: 0.3rem;
-    font-size: 0.65rem;
-  }
-
-  /* RESULTS HEADER */
-  .results-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.5rem;
-  }
-
-  .results-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    color: var(--text);
-  }
-
-  .results-title em {
-    color: var(--gold);
-    font-style: normal;
-  }
-
-  /* LEAD CARD */
-  .lead-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    margin-bottom: 1.25rem;
-    overflow: hidden;
-    transition: border-color 0.2s;
-  }
-
-  .lead-card:hover { border-color: var(--border-bright); }
-
-  .lead-card-header {
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 1rem;
-    cursor: pointer;
-  }
-
-  .lead-company {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.15rem;
-    color: var(--text);
-    margin-bottom: 2px;
-  }
-
-  .lead-meta {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 4px;
-  }
-
-  .lead-meta span { display: flex; align-items: center; gap: 4px; }
-
-  .heat-badge {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    border: 1px solid;
-  }
-
-  .heat-hot { color: #e8845a; border-color: rgba(232,132,90,0.35); background: rgba(232,132,90,0.08); }
-  .heat-warm { color: var(--gold); border-color: var(--border-bright); background: rgba(201,168,76,0.08); }
-  .heat-cold { color: #6ba3d6; border-color: rgba(107,163,214,0.35); background: rgba(107,163,214,0.08); }
-
-  .score-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-  }
-
-  .score-bar {
-    flex: 1;
-    height: 3px;
-    background: var(--surface3);
-    border-radius: 2px;
-    overflow: hidden;
-  }
-
-  .score-fill {
-    height: 100%;
-    border-radius: 2px;
-    background: linear-gradient(90deg, var(--gold-dim), var(--gold));
-    transition: width 1s ease;
-  }
-
-  .score-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--text-dim);
-    min-width: 28px;
-    text-align: right;
-  }
-
-  .lead-reason {
-    font-size: 0.82rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-top: 8px;
-    padding: 0.75rem 1rem;
-    background: var(--surface2);
-    border-radius: 6px;
-    border-left: 2px solid var(--gold-dim);
-  }
-
-  /* DETAIL SECTION */
-  .lead-detail {
-    display: none;
-    border-top: 1px solid var(--border);
-    padding: 1.5rem;
-  }
-
-  .lead-detail.open { display: block; }
-
-  .msg-tabs {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1rem;
-  }
-
-  .msg-tab {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.1em;
-    padding: 5px 12px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: all 0.15s;
-  }
-
-  .msg-tab.active {
-    border-color: var(--gold-dim);
-    color: var(--gold);
-    background: rgba(201,168,76,0.07);
-  }
-
-  .msg-variant { display: none; }
-  .msg-variant.active { display: block; }
-
-  .msg-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--text-dim);
-    margin-bottom: 0.5rem;
-    text-transform: uppercase;
-  }
-
-  .msg-subject {
-    font-size: 0.85rem;
-    font-weight: 500;
-    color: var(--gold-light);
-    margin-bottom: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    background: rgba(201,168,76,0.06);
-    border-radius: 4px;
-    border: 1px solid var(--border);
-  }
-
-  .msg-body {
-    font-size: 0.85rem;
-    color: var(--text);
-    line-height: 1.8;
-    background: var(--surface2);
-    border-radius: 6px;
-    padding: 1rem 1.1rem;
-    border: 1px solid var(--border);
-    white-space: pre-wrap;
-    margin-bottom: 0.75rem;
-    font-family: 'Outfit', sans-serif;
-  }
-
-  .msg-linkedin {
-    font-size: 0.85rem;
-    color: var(--text);
-    line-height: 1.8;
-    background: var(--surface2);
-    border-radius: 6px;
-    padding: 1rem 1.1rem;
-    border: 1px solid rgba(107,163,214,0.25);
-    white-space: pre-wrap;
-    margin-bottom: 0.75rem;
-  }
-
-  .msg-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .contact-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    padding: 0.75rem 1rem;
-    background: var(--surface2);
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    margin-bottom: 1rem;
-    align-items: center;
-  }
-
-  .contact-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .contact-name {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .contact-role {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.18em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin: 1.25rem 0 0.6rem;
-  }
-
-  /* TOAST */
-  .toast {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    background: var(--surface2);
-    border: 1px solid var(--border-bright);
-    border-radius: 8px;
-    padding: 0.75rem 1.25rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 0.25s;
-    pointer-events: none;
-    z-index: 999;
-  }
-
-  .toast.show { opacity: 1; transform: translateY(0); }
-
-  /* STRATEGY BOX */
-  .strategy-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--gold-dim);
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-  }
-
-  .error-box {
-    background: rgba(224,85,85,0.07);
-    border: 1px solid rgba(224,85,85,0.25);
-    border-radius: 8px;
-    padding: 1.25rem;
-    color: var(--red);
-    font-size: 0.85rem;
-    line-height: 1.7;
-  }
-
-  /* CHEVRON */
-  .chevron {
-    width: 16px; height: 16px;
-    border-right: 1.5px solid var(--text-dim);
-    border-bottom: 1.5px solid var(--text-dim);
-    transform: rotate(45deg);
-    transition: transform 0.2s;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-
-  .chevron.open { transform: rotate(-135deg); }
-
-  @media (max-width: 600px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    .results-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-    .header { padding: 1rem; }
-    .main { padding: 1.5rem 1rem; }
-  }
-</style>
-</head>
-<body>
-
-<div class="header">
-  <div class="logo">
-    TWÓRCY
-    <span>AGENT LEADÓW · v1.0</span>
-  </div>
-  <div class="header-status">
-    <span class="dot"></span>META AD LIBRARY · SEARCHAPI
-  </div>
-</div>
-
-<div class="main">
-
-  <!-- FORM VIEW -->
-  <div id="view-form">
-
-    <div class="panel">
-      <div class="panel-title">Kryteria wyszukiwania</div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Słowo kluczowe / branża</label>
-          <input type="text" id="keyword" placeholder="np. fashion, meble, kosmetyki, software..." value="">
-        </div>
-        <div class="field">
-          <label>Kraj</label>
-          <select id="country">
-            <option value="PL">Polska</option>
-            <option value="DE">Niemcy</option>
-            <option value="FR">Francja</option>
-            <option value="NL">Holandia</option>
-            <option value="CZ">Czechy</option>
-            <option value="SK">Słowacja</option>
-            <option value="AT">Austria</option>
-            <option value="BE">Belgia</option>
-            <option value="SE">Szwecja</option>
-            <option value="ALL">Cała Europa</option>
-          </select>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Typ reklam do wykluczenia</label>
-          <select id="exclude_type">
-            <option value="no_video">Firmy bez reklam wideo (Twój target)</option>
-            <option value="all">Wszystkie aktywne reklamy</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Liczba leadów do wygenerowania</label>
-          <select id="count">
-            <option value="3" selected>3 leady</option>
-            <option value="3" selected>3 leady</option>
-            <option value="8">8 leadów</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">Twój profil</div>
-      <div class="field">
-        <label>USP — co oferujesz i czym się wyróżniasz</label>
-        <textarea id="usp">Produkuję filmy marketingowe — spoty reklamowe, filmy wizerunkowe, relacje z eventów, unboxingi. Każda forma filmowa w marketingu. Pracuję z firmami z Polski i Europy. Łączę storytelling z celami biznesowymi klienta.</textarea>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Twoje imię i nazwisko</label>
-          <input type="text" id="sender_name" value="Filip Kalczyński">
-        </div>
-        <div class="field">
-          <label>Link do portfolio (Vimeo)</label>
-          <input type="text" id="portfolio" value="https://vimeo.com/user12600786">
-        </div>
-      </div>
-      <div class="grid-3">
-        <div class="field">
-          <label>Ton wiadomości</label>
-          <select id="tone">
-            <option value="miękki, wartościowy">Miękki, wartościowy</option>
-            <option value="bezpośredni, konkretny">Bezpośredni, konkretny</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Język wiadomości</label>
-          <select id="lang">
-            <option value="polski">Polski</option>
-            <option value="angielski">Angielski</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Twój adres e-mail</label>
-          <input type="text" id="sender_email" value="fkalczynski@tworcy.com.pl">
-        </div>
-      </div>
-    </div>
-
-    <div class="panel">
-      <div class="panel-title">Stopka mailowa</div>
-      <div class="field">
-        <textarea id="signature" style="min-height:100px; font-family: 'DM Mono', monospace; font-size:0.75rem;">Filip Kalczyński
-Copywriter | Reżyser | Producent
-
-TWÓRCY
-fkalczynski@tworcy.com.pl
-m: 507 017 011
-www.tworcy.com.pl
-https://vimeo.com/user12600786</textarea>
-      </div>
-    </div>
-
-    <button class="btn-main" id="btn-run" onclick="runAgent()">
-      SZUKAJ LEADÓW W META AD LIBRARY →
-    </button>
-  </div>
-
-  <!-- RESULTS VIEW -->
-  <div id="view-results" style="display:none">
-
-    <div class="results-header">
-      <div>
-        <div class="results-title" id="res-title">Analizuję rynek<em>...</em></div>
-        <div style="font-size:0.78rem; color:var(--text-muted); margin-top:4px;" id="res-sub"></div>
-      </div>
-      <button class="btn-sm" onclick="resetView()">← Nowe wyszukiwanie</button>
-    </div>
-
-    <div id="loading-block" class="panel">
-      <div class="loading-wrap">
-        <div class="loader"></div>
-        <div class="loading-step" id="load-msg">POBIERANIE DANYCH Z META AD LIBRARY
-          <span id="load-sub">łączenie z searchapi.io...</span>
-        </div>
-      </div>
-    </div>
-
-    <div id="results-block" style="display:none"></div>
-  </div>
-
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-const PROXY_URL = 'https://tworcy-proxy.onrender.com/search';
-const ANTHROPIC_PROXY = 'https://tworcy-proxy.onrender.com/anthropic';
-
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2500);
-}
-
-function copyText(text) {
-  navigator.clipboard.writeText(text).then(() => showToast('Skopiowano ✓'));
-}
-
-function makeMailtoLink(to, subject, body) {
-  return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-}
-
-function toggleDetail(id) {
-  const det = document.getElementById('det-' + id);
-  const chev = document.getElementById('chev-' + id);
-  det.classList.toggle('open');
-  chev.classList.toggle('open');
-}
-
-function switchMsgTab(leadIdx, variantIdx) {
-  document.querySelectorAll(`.msg-tab-${leadIdx}`).forEach((t, i) => {
-    t.classList.toggle('active', i === variantIdx);
-  });
-  document.querySelectorAll(`.msg-variant-${leadIdx}`).forEach((v, i) => {
-    v.classList.toggle('active', i === variantIdx);
-  });
-}
-
-function resetView() {
-  document.getElementById('view-results').style.display = 'none';
-  document.getElementById('view-form').style.display = 'block';
-  document.getElementById('btn-run').disabled = false;
-  document.getElementById('results-block').innerHTML = '';
-  document.getElementById('results-block').style.display = 'none';
-  document.getElementById('loading-block').style.display = 'block';
-}
-
-async function fetchMetaAds(keyword, country) {
-  const params = new URLSearchParams({
-    engine: 'meta_ad_library',
-    q: keyword,
-    country: country,
-    ad_type: 'ALL',
-    ad_active_status: 'ACTIVE',
-  });
-
-  try {
-    const res = await fetch(`${PROXY_URL}?${params}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    return data;
-  } catch(e) {
-    console.error('fetchMetaAds error:', e);
-    throw new Error(`Błąd połączenia z Meta Ad Library: ${e.message}`);
-  }
-}
-
-async function qualifyAndGenerate(adsData, params) {
-  const { keyword, country, usp, senderName, portfolio, tone, lang, signature, count, excludeType } = params;
-
-  // Extract just the useful fields to save tokens
-  const ads = (adsData.ads || []).slice(0, 30).map(a => ({
-    page: a.snapshot?.page_name || '',
-    body: (a.snapshot?.body?.markup || a.snapshot?.cards?.[0]?.body || '').slice(0, 100),
-    cta: a.snapshot?.cta_text || '',
-    link: a.snapshot?.link_url || a.snapshot?.cards?.[0]?.link_url || '',
-    media: a.snapshot?.videos?.length > 0 ? 'video' : 'image',
-  }));
-  const adsSnippet = JSON.stringify(ads);
-
-  const prompt = `Jesteś ekspertem od generowania leadów B2B dla firmy produkcji filmowej i video marketingu.
-
-PRODUCENT FILMOWY:
-Imię i nazwisko: ${senderName}
-USP: ${usp}
-Portfolio: ${portfolio}
-
-DANE Z META AD LIBRARY (surowe, JSON):
-${adsSnippet}
-
-ZADANIE:
-1. Przeanalizuj powyższe dane z Meta Ad Library — firmy aktywnie kupujące reklamy graficzne/statyczne na Facebooku/Instagramie w branży: "${keyword}", kraj: ${country}.
-2. KLUCZOWY FILTR: Wybieraj WYŁĄCZNIE firmy działające na terenie Polski — polskie hotele, marki z polskimi stronami www (.pl), polskimi adresami lub polskojęzyczną komunikacją. Bezwzględnie odrzuć zagraniczne sieci (Marriott, Hilton, Booking itp.) oraz firmy spoza Polski.
-3. Wyciągnij ${count} najbardziej interesujących polskich reklamodawców którzy NIE używają wideo (lub używają go rzadko) — to Twój główny sygnał zakupowy.
-4. Dla każdej firmy wygeneruj lead z dwoma wariantami wiadomości outreach (${tone}, ${lang}).
-5. Każda wiadomość powinna nawiązywać do konkretnych reklam tej firmy które widzisz w danych.
-
-STOPKA (dodaj ją na końcu każdego emaila dokładnie tak):
-${signature}
-
-Odpowiedz TYLKO w JSON bez żadnego markdown ani komentarzy:
-{
-  "leads": [
-    {
-      "company_name": "nazwa firmy z danych",
-      "page_name": "nazwa strony FB",
-      "industry": "branża",
-      "ad_observation": "co konkretnie widać w ich reklamach — ile reklam, jakiego typu, co reklamują",
-      "score": 82,
-      "heat": "gorący",
-      "contact_name": "Imię Nazwisko (zmyślone ale realistyczne dla tej firmy)",
-      "contact_role": "CMO / Marketing Manager / etc",
-      "contact_email": "imie.nazwisko@domena.com (na podstawie domeny firmy)",
-      "contact_linkedin": "linkedin.com/in/imie-nazwisko",
-      "qualification_reason": "dlaczego to dobry lead — 2 zdania nawiązujące do ich reklam",
-      "email_variant_1": {
-        "label": "Miękki, wartościowy",
-        "subject": "temat emaila",
-        "body": "treść emaila z stopką na końcu"
-      },
-      "email_variant_2": {
-        "label": "Bezpośredni, konkretny",
-        "subject": "temat emaila",
-        "body": "treść emaila z stopką na końcu"
-      },
-      "linkedin_msg": "wiadomość LinkedIn max 300 znaków"
-    }
-  ],
-  "strategy": "2-3 zdania o strategii outreach dla tych leadów"
-}`;
-
-  const res = await fetch(ANTHROPIC_PROXY, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 2000,
-      messages: [{ role: 'user', content: prompt }]
-    })
-  });
-
-  const data = await res.json();
-  if (!res.ok || !data.content) {
-    const errMsg = data.error?.message || JSON.stringify(data);
-    throw new Error('Anthropic API error: ' + errMsg);
-  }
-  const text = data.content.map(i => i.text || '').join('');
-  const clean = text.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
-}
-
-function renderLeads(result, senderEmail) {
-  const { leads, strategy } = result;
-  let html = '';
-
-  if (strategy) {
-    html += `<div class="strategy-box">${strategy}</div>`;
-  }
-
-  leads.forEach((lead, i) => {
-    const heatClass = lead.heat === 'gorący' ? 'heat-hot' : lead.heat === 'ciepły' ? 'heat-warm' : 'heat-cold';
-    const score = Math.min(100, Math.max(0, lead.score || 70));
-
-    const mailto1 = makeMailtoLink(lead.contact_email, lead.email_variant_1.subject, lead.email_variant_1.body);
-    const mailto2 = makeMailtoLink(lead.contact_email, lead.email_variant_2.subject, lead.email_variant_2.body);
-
-    html += `
-    <div class="lead-card">
-      <div class="lead-card-header" onclick="toggleDetail(${i})">
-        <div style="flex:1; min-width:0">
-          <div class="lead-company">${lead.company_name}</div>
-          <div class="lead-meta">
-            <span>📍 ${lead.industry}</span>
-            <span>📄 ${lead.ad_observation ? lead.ad_observation.slice(0,60) + '…' : 'aktywne reklamy FB/IG'}</span>
-          </div>
-          <div class="score-row">
-            <div class="score-bar"><div class="score-fill" style="width:${score}%"></div></div>
-            <div class="score-num">${score}/100</div>
-            <span class="heat-badge ${heatClass}">${lead.heat || 'ciepły'}</span>
-          </div>
-          <div class="lead-reason">${lead.qualification_reason}</div>
-        </div>
-        <div class="chevron" id="chev-${i}"></div>
-      </div>
-
-      <div class="lead-detail" id="det-${i}">
-
-        <div class="section-label">Kontakt</div>
-        <div class="contact-row">
-          <div class="contact-info">
-            <div class="contact-name">${lead.contact_name}</div>
-            <div class="contact-role">${lead.contact_role}</div>
-          </div>
-          <button class="btn-sm" onclick="copyText('${lead.contact_email}')">Kopiuj e-mail</button>
-          <button class="btn-sm" onclick="copyText('${lead.contact_linkedin}')">Kopiuj LinkedIn</button>
-        </div>
-
-        <div class="section-label">E-mail outreach</div>
-        <div class="msg-tabs">
-          <button class="msg-tab msg-tab-${i} active" onclick="switchMsgTab(${i},0)">${lead.email_variant_1.label}</button>
-          <button class="msg-tab msg-tab-${i}" onclick="switchMsgTab(${i},1)">${lead.email_variant_2.label}</button>
-        </div>
-
-        <div class="msg-variant msg-variant-${i} active">
-          <div class="msg-label">Temat</div>
-          <div class="msg-subject">${lead.email_variant_1.subject}</div>
-          <div class="msg-label">Treść</div>
-          <div class="msg-body">${lead.email_variant_1.body}</div>
-          <div class="msg-actions">
-            <a class="btn-mail" href="${mailto1}">✉ Otwórz w kliencie poczty</a>
-            <button class="btn-sm" onclick="copyText(${JSON.stringify(lead.email_variant_1.subject + '\n\n' + lead.email_variant_1.body)})">Kopiuj całość</button>
-          </div>
-        </div>
-
-        <div class="msg-variant msg-variant-${i}">
-          <div class="msg-label">Temat</div>
-          <div class="msg-subject">${lead.email_variant_2.subject}</div>
-          <div class="msg-label">Treść</div>
-          <div class="msg-body">${lead.email_variant_2.body}</div>
-          <div class="msg-actions">
-            <a class="btn-mail" href="${mailto2}">✉ Otwórz w kliencie poczty</a>
-            <button class="btn-sm" onclick="copyText(${JSON.stringify(lead.email_variant_2.subject + '\n\n' + lead.email_variant_2.body)})">Kopiuj całość</button>
-          </div>
-        </div>
-
-        <div class="section-label">Wiadomość LinkedIn</div>
-        <div class="msg-linkedin">${lead.linkedin_msg}</div>
-        <div class="msg-actions">
-          <button class="btn-sm" onclick="copyText(${JSON.stringify(lead.linkedin_msg)})">Kopiuj wiadomość LinkedIn</button>
-          <a class="btn-sm" href="${lead.contact_linkedin}" target="_blank" style="text-decoration:none">Otwórz profil ↗</a>
-        </div>
-
-      </div>
-    </div>`;
-  });
-
-  return html;
-}
-
-const loadingSteps = [
-  ['POBIERANIE DANYCH Z META AD LIBRARY', 'łączenie z searchapi.io...'],
-  ['ANALIZA REKLAM', 'filtrowanie firm bez wideo...'],
-  ['KWALIFIKACJA LEADÓW', 'ocena potencjału i sygnałów zakupowych...'],
-  ['GENEROWANIE WIADOMOŚCI', 'personalizacja outreach dla każdej firmy...'],
-  ['FINALIZACJA', 'przygotowuję raporty i linki mailto...'],
-];
-
-async function runAgent() {
-  const keyword = document.getElementById('keyword').value.trim();
-  if (!keyword) { showToast('Podaj słowo kluczowe / branżę'); return; }
-
-  const params = {
-    keyword,
-    country: document.getElementById('country').value,
-    usp: document.getElementById('usp').value,
-    senderName: document.getElementById('sender_name').value,
-    portfolio: document.getElementById('portfolio').value,
-    tone: document.getElementById('tone').value,
-    lang: document.getElementById('lang').value,
-    signature: document.getElementById('signature').value,
-    count: document.getElementById('count').value,
-    excludeType: document.getElementById('exclude_type').value,
-    senderEmail: document.getElementById('sender_email').value,
-  };
-
-  document.getElementById('btn-run').disabled = true;
-  document.getElementById('view-form').style.display = 'none';
-  document.getElementById('view-results').style.display = 'block';
-  document.getElementById('res-title').innerHTML = `Szukam leadów<em>...</em>`;
-  document.getElementById('res-sub').textContent = `${keyword} · ${params.country}`;
-
-  let stepIdx = 0;
-  const setStep = (i) => {
-    const [msg, sub] = loadingSteps[i] || loadingSteps[0];
-    document.getElementById('load-msg').childNodes[0].textContent = msg;
-    document.getElementById('load-sub').textContent = sub;
-  };
-
-  const interval = setInterval(() => {
-    stepIdx = Math.min(stepIdx + 1, loadingSteps.length - 1);
-    setStep(stepIdx);
-  }, 3000);
-
-  try {
-    setStep(0);
-    const adsData = await fetchMetaAds(keyword, params.country);
-
-    setStep(2);
-    const result = await qualifyAndGenerate(adsData, params);
-
-    clearInterval(interval);
-    document.getElementById('loading-block').style.display = 'none';
-    document.getElementById('res-title').innerHTML = `<em>${result.leads.length}</em> leadów gotowych`;
-
-    const html = renderLeads(result, params.senderEmail);
-    document.getElementById('results-block').innerHTML = html;
-    document.getElementById('results-block').style.display = 'block';
-
-  } catch(err) {
-    clearInterval(interval);
-    document.getElementById('loading-block').innerHTML = `
-      <div class="error-box">
-        <strong>Błąd podczas generowania leadów.</strong><br><br>
-        ${err.message || 'Sprawdź połączenie i klucz API, następnie spróbuj ponownie.'}<br><br>
-        <button class="btn-sm" onclick="resetView()">← Wróć i spróbuj ponownie</button>
-      </div>`;
-    console.error(err);
-  }
+function showError(msg){
+  document.getElementById('loading').innerHTML=`<div class="errbox"><strong>Błąd podczas generowania leadów.</strong><br><br>${msg}<br><br><button class="btn-sm" onclick="reset()">← Wróć i spróbuj ponownie</button></div>`;
 }
 </script>
 </body>
