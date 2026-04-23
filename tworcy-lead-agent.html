@@ -602,8 +602,8 @@
         <div class="field">
           <label>Liczba leadów do wygenerowania</label>
           <select id="count">
-            <option value="3">3 leady</option>
-            <option value="5" selected>5 leadów</option>
+            <option value="3" selected>3 leady</option>
+            <option value="3" selected>3 leady</option>
             <option value="8">8 leadów</option>
           </select>
         </div>
@@ -762,7 +762,7 @@ async function fetchMetaAds(keyword, country) {
 async function qualifyAndGenerate(adsData, params) {
   const { keyword, country, usp, senderName, portfolio, tone, lang, signature, count, excludeType } = params;
 
-  const adsSnippet = JSON.stringify(adsData).slice(0, 6000);
+  const adsSnippet = JSON.stringify(adsData).slice(0, 3000);
 
   const prompt = `Jesteś ekspertem od generowania leadów B2B dla firmy produkcji filmowej i video marketingu.
 
@@ -820,7 +820,7 @@ Odpowiedz TYLKO w JSON bez żadnego markdown ani komentarzy:
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 4000,
+      max_tokens: 2000,
       messages: [{ role: 'user', content: prompt }]
     })
   });
