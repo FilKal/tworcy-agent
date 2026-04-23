@@ -179,11 +179,8 @@ Dla każdej firmy napisz:
 1. Email (ton: profesjonalny, język: ${lang}) nawiązujący do ich reklam graficznych i braku wideo
 2. Wiadomość LinkedIn (max 250 znaków)
 
-Stopka każdego emaila:
-${sig}
-
-Odpowiedz TYLKO JSON (bez markdown):
-{"leads":[{"co":"nazwa firmy","ind":"branża","obs":"co widać w ich reklamach (1 zdanie)","score":75,"heat":"ciepły","www":"adres strony www firmy z reklamy","lico":"nazwa firmy do wyszukania na LinkedIn (dokładna)","why":"dlaczego dobry lead (1 zdanie)","e1s":"temat emaila wariant 1","e1b":"treść emaila wariant 1 ze stopką (bez imienia odbiorcy - zacznij od nazwy firmy)","e2s":"temat emaila wariant 2","e2b":"treść emaila wariant 2 ze stopką (bez imienia odbiorcy)","lnk":"wiadomość linkedin (bez imienia odbiorcy)"}],"strat":"1 zdanie strategii"}`;
+Odpowiedz TYLKO JSON (bez markdown). Emaile BEZ stopki, max 80 słów każdy:
+{"leads":[{"co":"nazwa firmy","ind":"branża","obs":"co widać w ich reklamach (1 zdanie)","score":75,"heat":"ciepły","www":"adres www firmy","lico":"nazwa firmy na LinkedIn","why":"dlaczego dobry lead (1 zdanie)","e1s":"temat 1","e1b":"treść emaila max 80 słów bez stopki","e2s":"temat 2","e2b":"treść emaila max 80 słów bez stopki","lnk":"wiadomość linkedin max 200 znaków"}],"strat":"1 zdanie"}`;
 
   let result;
   try{
@@ -203,6 +200,7 @@ Odpowiedz TYLKO JSON (bez markdown):
 }
 
 function render(result){
+  const sig=document.getElementById("sig").value;
   document.getElementById('loading').style.display='none';
   document.getElementById('rtitle').innerHTML=`<em>${result.leads.length}</em> leadów gotowych`;
   const c=document.getElementById('leads');
@@ -212,8 +210,12 @@ function render(result){
   result.leads.forEach((l,i)=>{
     const hc=l.heat==='gorący'?'hot':l.heat==='ciepły'?'warm':'cold';
     const sc=Math.min(100,Math.max(0,l.score||70));
-    const m1=mailto(l.ce,l.e1s,l.e1b);
-    const m2=mailto(l.ce,l.e2s,l.e2b);
+    const m1=mailto(l.ce||'',l.e1s,l.e1b+'
+
+'+sig);
+    const m2=mailto(l.ce||'',l.e2s,l.e2b+'
+
+'+sig);
     html+=`<div class="lcard">
       <div class="lcard-h" onclick="toggle(${i})">
         <div style="flex:1">
@@ -238,13 +240,17 @@ function render(result){
         </div>
         <div class="variant v${i} active">
           <div class="subj">${l.e1s}</div>
-          <div class="mbody">${l.e1b}</div>
-          <div class="acts"><a class="btn-mail" href="${m1}">✉ Otwórz w kliencie poczty</a><button class="btn-sm" onclick="cp(${JSON.stringify(l.e1s+'\n\n'+l.e1b)})">Kopiuj</button></div>
+          <div class="mbody">${l.e1b}
+
+${sig}</div>
+          <div class="acts"><a class="btn-mail" href="${m1}">✉ Otwórz w kliencie poczty</a><button class="btn-sm" onclick="cp(${JSON.stringify(l.e1s+'\n\n'+l.e1b+'\n\n'+sig)})">Kopiuj</button></div>
         </div>
         <div class="variant v${i}">
           <div class="subj">${l.e2s}</div>
-          <div class="mbody">${l.e2b}</div>
-          <div class="acts"><a class="btn-mail" href="${m2}">✉ Otwórz w kliencie poczty</a><button class="btn-sm" onclick="cp(${JSON.stringify(l.e2s+'\n\n'+l.e2b)})">Kopiuj</button></div>
+          <div class="mbody">${l.e2b}
+
+${sig}</div>
+          <div class="acts"><a class="btn-mail" href="${m2}">✉ Otwórz w kliencie poczty</a><button class="btn-sm" onclick="cp(${JSON.stringify(l.e2s+'\n\n'+l.e2b+'\n\n'+sig)})">Kopiuj</button></div>
         </div>
         <div class="slabel">Wiadomość LinkedIn</div>
         <div class="lnkbody">${l.lnk}</div>
