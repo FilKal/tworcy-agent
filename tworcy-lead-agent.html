@@ -183,7 +183,7 @@ Stopka każdego emaila:
 ${sig}
 
 Odpowiedz TYLKO JSON (bez markdown):
-{"leads":[{"co":"nazwa firmy","ind":"branża","obs":"co widać w ich reklamach (1 zdanie)","score":75,"heat":"ciepły","cn":"Imię Nazwisko","cr":"stanowisko","ce":"email@firma.pl","cl":"linkedin.com/in/imie-nazwisko","why":"dlaczego dobry lead (1 zdanie)","e1s":"temat emaila wariant 1","e1b":"treść emaila wariant 1 ze stopką","e2s":"temat emaila wariant 2","e2b":"treść emaila wariant 2 ze stopką","lnk":"wiadomość linkedin"}],"strat":"1 zdanie strategii"}`;
+{"leads":[{"co":"nazwa firmy","ind":"branża","obs":"co widać w ich reklamach (1 zdanie)","score":75,"heat":"ciepły","www":"adres strony www firmy z reklamy","lico":"nazwa firmy do wyszukania na LinkedIn (dokładna)","why":"dlaczego dobry lead (1 zdanie)","e1s":"temat emaila wariant 1","e1b":"treść emaila wariant 1 ze stopką (bez imienia odbiorcy - zacznij od nazwy firmy)","e2s":"temat emaila wariant 2","e2b":"treść emaila wariant 2 ze stopką (bez imienia odbiorcy)","lnk":"wiadomość linkedin (bez imienia odbiorcy)"}],"strat":"1 zdanie strategii"}`;
 
   let result;
   try{
@@ -227,9 +227,9 @@ function render(result){
       <div class="detail" id="d${i}">
         <div class="slabel">Kontakt</div>
         <div class="contact-row">
-          <div class="cinfo"><div class="cname">${l.cn}</div><div class="crole">${l.cr}</div></div>
-          <button class="btn-sm" onclick="cp('${l.ce}')">Kopiuj e-mail</button>
-          <button class="btn-sm" onclick="cp('${l.cl}')">Kopiuj LinkedIn</button>
+          <div class="cinfo"><div class="cname">${l.co}</div><div class="crole">Znajdź osobę decyzyjną na LinkedIn lub stronie www</div></div>
+          <a class="btn-mail" href="https://${l.www}" target="_blank" style="text-decoration:none">🌐 Strona www</a>
+          <a class="btn-mail" href="https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(l.lico)}&titleKeyword=marketing" target="_blank" style="text-decoration:none;border-color:#0077b5;color:#0077b5">🔍 LinkedIn</a>
         </div>
         <div class="slabel">E-mail outreach</div>
         <div class="tabs">
