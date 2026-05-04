@@ -113,6 +113,280 @@ www.tworcy.com.pl
 https://vimeo.com/user12600786</textarea></div>
     </div>
     <button class="btn-main" id="btnrun" onclick="runAgent()">SZUKAJ LEADÓW W META AD LIBRARY →</button>
+    <div style="text-align:center;margin-top:.75rem">
+      <button class="btn-sm" onclick="seenCompanies=[];showToast('Lista wyczyszczona')">Wyczyść historię wyszukiwań</button>
+    </div>
+  </div>
+
+  <div id="vres" style="display:none">
+    <div class="rhead">
+      <div><div class="rtitle" id="rtitle">Szukam leadów<em>...</em></div><div style="font-size:.78rem;color:#8a8680;margin-top:4px" id="rsub"></div></div>
+      <button class="btn-sm" onclick="resetView()">← Nowe wyszukiwanie</button>
+    </div>
+    <div id="loading" class="panel"><div class="lmsg"><div class="loader"></div><div id="lmsg">Pobieranie danych z Meta Ad Library...</div></div></div>
+    <div id="leads" style="display:none"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+var PROXY = 'https://tworcy-proxy.onrender.com';
+var seenCompanies = [];
+
+function showToast(m) {
+  var t = document.getElementById('toast');
+  t.textContent = m;
+  t.classList.add('show');
+  setTimeout(function() { t.classList.remove('show'); }, 2500);
+}
+
+function copyText(t) {
+  navigator.clipboard.writeText(t).then(function() { showToast('Skopiowano'); });
+}
+
+function makeMailto(to, sub, body) {
+  return 'mailto:' + encodeURIComponent(to) + '?subject=' + encodeURIComponent(sub) + '&body=' + encodeURIComponent(body);
+}
+
+function toggleDetail(i) {
+  var d = document.getElementById('det' + i);
+  var c = document.getElementById('chev' + i);
+  d.classList.toggle('open');
+  c.classList.toggle('open');
+}
+
+function switchTab(li, vi) {
+  var tabs = document.querySelectorAll('.tab' + li);
+  var vars = document.querySelectorAll('.var' + li);
+  for (var i = 0; i < tabs.length; i++) { tabs[i].classList.toggle('active', i === vi); }
+  for (var i = 0; i < vars.length; i++) { vars[i].classList.toggle('active', i === vi); }
+}
+
+function resetView() {
+  document.getElementById('vres').style.display = 'none';
+  document.getElementById('vform').style.display = 'block';
+  document.getElementById('btnrun').disabled = false;
+  document.getElementById('leads').innerHTML = '';
+  document.getElementById('leads').style.display = 'none';
+  document.getElementById('loading').innerHTML = '<div class="lmsg"><div class="loader"></div><div id="lmsg">Pobieranie danych z Meta Ad Library...</div></div>';
+  document.getElementById('loading').style.display = 'block';
+}
+
+function showError(msg) {
+  document.getElementById('loading').innerHTML = '<div class="errbox"><strong>Błąd podczas generowania leadów.</strong><br><br>' + msg + '<br><br><button class="btn-sm" onclick="resetView()">← Wróć i spróbuj ponownie</button></div>';
+}
+
+function renderLeads(result, sig) {
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('rtitle').innerHTML = '<em>' + result.leads.length + '</em> leadów gotowych';
+  var c = document.getElementById('leads');
+  c.style.display = 'block';
+  var html = '';
+  if (result.strat) { html += '<div class="strat">' + result.strat + '</div>'; }
+
+  for (var i = 0; i < result.leads.length; i++) {
+    var l = result.leads[i];
+    var hc = l.heat === 'gorący' ? 'hot' : l.heat === 'ciepły' ? 'warm' : 'cold';
+    var sc = Math.min(100, Math.max(0, l.score || 70));
+    var body1 = l.e1b + '\n\n' + sig;
+    var body2 = l.e2b + '\n\n' + sig;
+    var m1 = makeMailto('', l.e1s, body1);
+    var m2 = makeMailto('', l.e2s, body2);
+    var liurl = 'https://www.linkedin.com/search/results/people/?keywords=' + encodeURIComponent(l.lico) + '&titleKeyword=marketing';
+    var wwwurl = l.www.indexOf('http') === 0 ? l.www : 'https://' + l.www;
+
+    html += '<div class="lcard">';
+    html += '<div class="lcard-h" onclick="toggleDetail(' + i + ')">';
+    html += '<div style="flex:1">';
+    html += '<div class="lco">' + l.co + '</div>';
+    html += '<div class="lmeta"><span>' + l.ind + '</span><span>' + l.obs + '</span></div>';
+    html += '<div class="srow"><div class="sbar"><div class="sfill" style="width:' + sc + '%"></div></div><div class="snum">' + sc + '/100</div><span class="badge ' + hc + '">' + l.heat + '</span></div>';
+    html += '<div class="reason">' + l.why + '</div>';
+    html += '</div>';
+    html += '<div class="chev" id="chev' + i + '"></div>';
+    html += '</div>';
+
+    html += '<div class="detail" id="det' + i + '">';
+
+    html += '<div class="slabel">Znajdź osobę decyzyjną</div>';
+    html += '<div class="contact-row">';
+    html += '<div class="cinfo"><div class="cname">' + l.co + '</div><div class="crole">Znajdź Marketing Managera / CMO na LinkedIn lub stronie www</div></div>';
+    html += '<a class="btn-www" href="' + wwwurl + '" target="_blank">🌐 Strona www</a>';
+    html += '<a class="btn-li" href="' + liurl + '" target="_blank">🔍 Szukaj na LinkedIn</a>';
+    html += '</div>';
+
+    html += '<div class="slabel">E-mail outreach</div>';
+    html += '<div class="tabs">';
+    html += '<button class="tab tab' + i + ' active" onclick="switchTab(' + i + ',0)">Wariant 1</button>';
+    html += '<button class="tab tab' + i + '" onclick="switchTab(' + i + ',1)">Wariant 2</button>';
+    html += '</div>';
+
+    html += '<div class="variant var' + i + ' active">';
+    html += '<div class="subj">' + l.e1s + '</div>';
+    html += '<div class="mbody">' + l.e1b + '\n\n' + sig + '</div>';
+    html += '<div class="acts">';
+    html += '<a class="btn-www" href="' + m1 + '">✉ Otwórz w kliencie poczty</a>';
+    html += '<button class="btn-sm" onclick="copyText(' + JSON.stringify(l.e1s + '\n\n' + body1) + ')">Kopiuj</button>';
+    html += '</div></div>';
+
+    html += '<div class="variant var' + i + '">';
+    html += '<div class="subj">' + l.e2s + '</div>';
+    html += '<div class="mbody">' + l.e2b + '\n\n' + sig + '</div>';
+    html += '<div class="acts">';
+    html += '<a class="btn-www" href="' + m2 + '">✉ Otwórz w kliencie poczty</a>';
+    html += '<button class="btn-sm" onclick="copyText(' + JSON.stringify(l.e2s + '\n\n' + body2) + ')">Kopiuj</button>';
+    html += '</div></div>';
+
+    html += '<div class="slabel">Wiadomość LinkedIn</div>';
+    html += '<div class="lnkbody">' + l.lnk + '</div>';
+    html += '<div class="acts"><button class="btn-sm" onclick="copyText(' + JSON.stringify(l.lnk) + ')">Kopiuj wiadomość LinkedIn</button></div>';
+
+    html += '</div></div>';
+  }
+  c.innerHTML = html;
+}
+
+function runAgent() {
+  var kw = document.getElementById('keyword').value.trim();
+  if (!kw) { showToast('Podaj słowo kluczowe'); return; }
+  var country = document.getElementById('country').value;
+  var count = document.getElementById('count').value;
+  var lang = document.getElementById('lang').value;
+  var sname = document.getElementById('sname').value;
+  var portfolio = document.getElementById('portfolio').value;
+  var sig = document.getElementById('sig').value;
+
+  document.getElementById('btnrun').disabled = true;
+  document.getElementById('vform').style.display = 'none';
+  document.getElementById('vres').style.display = 'block';
+  document.getElementById('rsub').textContent = kw + ' · ' + country;
+
+  document.getElementById('lmsg').textContent = 'Pobieranie danych z Meta Ad Library...';
+
+  var params = new URLSearchParams({ engine: 'meta_ad_library', q: kw, country: country, ad_type: 'ALL', ad_active_status: 'ACTIVE' });
+
+  fetch(PROXY + '/search?' + params)
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var ads = (d.ads || []).slice(0, 20).map(function(a) {
+        return {
+          page: a.snapshot && a.snapshot.page_name ? a.snapshot.page_name : '',
+          text: a.snapshot && a.snapshot.body ? (a.snapshot.body.markup || '').slice(0, 80) : '',
+          link: a.snapshot ? (a.snapshot.link_url || '') : '',
+          video: !!(a.snapshot && a.snapshot.videos && a.snapshot.videos.length)
+        };
+      });
+
+      document.getElementById('lmsg').textContent = 'Analizuję i generuję leady...';
+
+      var prompt = 'Generuj leady B2B dla producenta filmów marketingowych ' + sname + ' (portfolio: ' + portfolio + ').\n\n'
+        + 'Dane z Meta Ad Library (reklamy w branży "' + kw + '", kraj: ' + country + '):\n'
+        + JSON.stringify(ads) + '\n\n'
+        + seenStr + 'Wybierz ' + count + ' polskich firm z video:false (reklamy graficzne, nie wideo). Pomiń globalne sieci.\n'
+        + 'Dla każdej firmy napisz 2 emaile (max 60 słów każdy, język: ' + lang + ') i wiadomość LinkedIn (max 180 znaków).\n'
+        + 'Emaile BEZ stopki, BEZ imienia odbiorcy.\n\n'
+        + 'Odpowiedz TYLKO w JSON bez markdown:\n'
+        + '{"leads":[{"co":"nazwa","ind":"branża","obs":"obserwacja reklam 1 zdanie","score":75,"heat":"ciepły","www":"strona www","lico":"nazwa do LinkedIn","why":"dlaczego lead 1 zdanie","e1s":"temat 1","e1b":"email 1","e2s":"temat 2","e2b":"email 2","lnk":"linkedin msg"}],"strat":"1 zdanie"}';
+
+      return fetch(PROXY + '/anthropic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 2500, messages: [{ role: 'user', content: prompt }] })
+      });
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (!d.content) { throw new Error(d.error ? d.error.message : JSON.stringify(d)); }
+      var txt = d.content.map(function(x) { return x.text || ''; }).join('');
+      var clean = txt.replace(/```json|```/g, '').trim();
+      var result = JSON.parse(clean);
+      seenCompanies = seenCompanies.concat(result.leads.map(function(l) { return l.co.toLowerCase(); }));
+      renderLeads(result, sig);
+    })
+    .catch(function(e) { showError(e.message); });
+}
+</script>
+</body>
+</html>
+.loader{width:36px;height:36px;border:2px solid rgba(201,168,76,.18);border-top-color:#C9A84C;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 1.25rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.lmsg{font-family:'DM Mono',monospace;font-size:.7rem;letter-spacing:.1em;color:#8a6e2f;text-align:center;padding:3rem 1rem}
+.rhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.rtitle{font-family:'DM Serif Display',serif;font-size:1.6rem;color:#f0ede6}
+.rtitle em{color:#C9A84C;font-style:normal}
+.lcard{background:#161616;border:1px solid rgba(201,168,76,.18);border-radius:10px;margin-bottom:1.25rem;overflow:hidden}
+.lcard:hover{border-color:rgba(201,168,76,.45)}
+.lcard-h{padding:1.25rem 1.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;cursor:pointer}
+.lco{font-family:'DM Serif Display',serif;font-size:1.15rem;color:#f0ede6}
+.lmeta{font-size:.8rem;color:#8a8680;display:flex;gap:12px;flex-wrap:wrap;margin-top:4px}
+.badge{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;padding:4px 10px;border-radius:20px;white-space:nowrap;border:1px solid}
+.hot{color:#e8845a;border-color:rgba(232,132,90,.35);background:rgba(232,132,90,.08)}
+.warm{color:#C9A84C;border-color:rgba(201,168,76,.45);background:rgba(201,168,76,.08)}
+.cold{color:#6ba3d6;border-color:rgba(107,163,214,.35);background:rgba(107,163,214,.08)}
+.sbar{flex:1;height:3px;background:#2a2a2a;border-radius:2px;overflow:hidden}
+.sfill{height:100%;border-radius:2px;background:linear-gradient(90deg,#8a6e2f,#C9A84C)}
+.snum{font-family:'DM Mono',monospace;font-size:.65rem;color:#5a5752;min-width:28px;text-align:right}
+.srow{display:flex;align-items:center;gap:8px;margin-top:8px}
+.reason{font-size:.82rem;color:#8a8680;line-height:1.6;margin-top:8px;padding:.75rem 1rem;background:#1f1f1f;border-radius:6px;border-left:2px solid #8a6e2f}
+.detail{display:none;border-top:1px solid rgba(201,168,76,.18);padding:1.5rem}
+.detail.open{display:block}
+.slabel{font-family:'DM Mono',monospace;font-size:.6rem;letter-spacing:.18em;color:#5a5752;text-transform:uppercase;margin:1rem 0 .5rem}
+.contact-row{display:flex;gap:8px;flex-wrap:wrap;padding:.75rem 1rem;background:#1f1f1f;border-radius:6px;border:1px solid rgba(201,168,76,.18);margin-bottom:1rem;align-items:center}
+.cinfo{flex:1}
+.cname{font-size:.9rem;font-weight:500}
+.crole{font-size:.75rem;color:#8a8680}
+.tabs{display:flex;gap:6px;margin-bottom:1rem}
+.tab{font-family:'DM Mono',monospace;font-size:.62rem;letter-spacing:.1em;padding:5px 12px;border-radius:4px;border:1px solid rgba(201,168,76,.18);background:transparent;color:#5a5752;cursor:pointer}
+.tab.active{border-color:#8a6e2f;color:#C9A84C;background:rgba(201,168,76,.07)}
+.variant{display:none}
+.variant.active{display:block}
+.subj{font-size:.85rem;font-weight:500;color:#E8C97A;margin-bottom:.75rem;padding:.5rem .75rem;background:rgba(201,168,76,.06);border-radius:4px;border:1px solid rgba(201,168,76,.18)}
+.mbody{font-size:.85rem;color:#f0ede6;line-height:1.8;background:#1f1f1f;border-radius:6px;padding:1rem 1.1rem;border:1px solid rgba(201,168,76,.18);white-space:pre-wrap;margin-bottom:.75rem}
+.lnkbody{font-size:.85rem;color:#f0ede6;line-height:1.8;background:#1f1f1f;border-radius:6px;padding:1rem 1.1rem;border:1px solid rgba(107,163,214,.25);white-space:pre-wrap;margin-bottom:.75rem}
+.acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.strat{background:#1f1f1f;border:1px solid rgba(201,168,76,.18);border-left:3px solid #8a6e2f;border-radius:6px;padding:1rem 1.25rem;font-size:.85rem;color:#8a8680;line-height:1.7;margin-bottom:1.5rem}
+.errbox{background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.25);border-radius:8px;padding:1.25rem;color:#e05555;font-size:.85rem;line-height:1.7}
+.chev{width:16px;height:16px;border-right:1.5px solid #5a5752;border-bottom:1.5px solid #5a5752;transform:rotate(45deg);transition:transform .2s;flex-shrink:0;margin-top:4px}
+.chev.open{transform:rotate(-135deg)}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#1f1f1f;border:1px solid rgba(201,168,76,.45);border-radius:8px;padding:.75rem 1.25rem;font-family:'DM Mono',monospace;font-size:.7rem;color:#C9A84C;letter-spacing:.08em;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none;z-index:999}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:600px){.g2{grid-template-columns:1fr}.rhead{flex-direction:column;align-items:flex-start;gap:.75rem}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">TWÓRCY<span>AGENT LEADÓW · v2.1</span></div>
+  <div class="hstat"><span class="dot"></span>META AD LIBRARY · SEARCHAPI</div>
+</div>
+<div class="main">
+  <div id="vform">
+    <div class="panel">
+      <div class="ptitle">Kryteria wyszukiwania</div>
+      <div class="g2">
+        <div class="field"><label>Słowo kluczowe / branża</label><input type="text" id="keyword" placeholder="np. hotel, fashion, meble..."></div>
+        <div class="field"><label>Kraj</label><select id="country"><option value="PL">Polska</option><option value="DE">Niemcy</option><option value="CZ">Czechy</option><option value="SK">Słowacja</option><option value="AT">Austria</option><option value="NL">Holandia</option></select></div>
+      </div>
+      <div class="g2">
+        <div class="field"><label>Liczba leadów</label><select id="count"><option value="2">2 leady</option><option value="3" selected>3 leady</option></select></div>
+        <div class="field"><label>Język wiadomości</label><select id="lang"><option value="polski">Polski</option><option value="angielski">Angielski</option></select></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ptitle">Twój profil</div>
+      <div class="g2">
+        <div class="field"><label>Imię i nazwisko</label><input type="text" id="sname" value="Filip Kalczyński"></div>
+        <div class="field"><label>Portfolio Vimeo</label><input type="text" id="portfolio" value="https://vimeo.com/user12600786"></div>
+      </div>
+      <div class="field"><label>Stopka mailowa</label><textarea id="sig" style="min-height:90px;font-size:.8rem">Filip Kalczyński
+Copywriter | Reżyser | Producent
+
+TWÓRCY
+fkalczynski@tworcy.com.pl
+m: 507 017 011
+www.tworcy.com.pl
+https://vimeo.com/user12600786</textarea></div>
+    </div>
+    <button class="btn-main" id="btnrun" onclick="runAgent()">SZUKAJ LEADÓW W META AD LIBRARY →</button>
   </div>
 
   <div id="vres" style="display:none">
